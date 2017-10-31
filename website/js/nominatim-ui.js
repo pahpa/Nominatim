@@ -17,7 +17,7 @@ function parse_and_normalize_geojson_string(raw_string){
     return parsed_geojson;
 }
 
-jQuery(document).ready(function(){
+jQuery(document).on('ready', function(){
 
     if ( !$('#search-page,#reverse-page').length ){ return; }
     
@@ -265,7 +265,7 @@ jQuery(document).ready(function(){
 });
 
 
-jQuery(document).ready(function(){
+jQuery(document).on('ready', function(){
 
     if ( !$('#details-page').length ){ return; }
 
@@ -278,11 +278,17 @@ jQuery(document).ready(function(){
                     touchZoom:          false,
                 });
 
-
         L.tileLayer(nominatim_map_init.tile_url, {
             // moved to footer
             attribution: (nominatim_map_init.tile_attribution || null ) //'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+	
+	console.log(nominatim_map_init);
+
+        map.setView([nominatim_map_init.lat, nominatim_map_init.lon], nominatim_map_init.zoom);
+
+        var osm2 = new L.TileLayer(nominatim_map_init.tile_url, {minZoom: 0, maxZoom: 13, attribution: (nominatim_map_init.tile_attribution || null )});
+        var miniMap = new L.Control.MiniMap(osm2, {toggleDisplay: true}).addTo(map);
 
         var layerGroup = new L.layerGroup().addTo(map);
 
@@ -306,8 +312,6 @@ jQuery(document).ready(function(){
             map.setView([nominatim_result.lat,nominatim_result.lon],10);
         }
 
-        var osm2 = new L.TileLayer(nominatim_map_init.tile_url, {minZoom: 0, maxZoom: 13, attribution: (nominatim_map_init.tile_attribution || null )});
-        var miniMap = new L.Control.MiniMap(osm2, {toggleDisplay: true}).addTo(map);
 
 
 });

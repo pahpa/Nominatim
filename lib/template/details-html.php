@@ -108,7 +108,6 @@
                 <table id="locationdetails" class="table table-striped">
 
                 <?php
-
                     kv('Name'            , hash_to_subtable($aPointDetails['aNames']) );
                     kv('Type'            , $aPointDetails['class'].':'.$aPointDetails['type'] );
                     kv('Last Updated'    , $aPointDetails['indexed_date'] );
@@ -161,11 +160,11 @@
                 <?php
 
                     foreach($aAddressLines as $aAddressLine)
-                    {   
+                    {
                         _one_row($aAddressLine);
                     }
                 ?>
-    
+
 
 
 <?php
@@ -174,7 +173,7 @@
     {
         headline('Linked Places');
         foreach($aLinkedLines as $aAddressLine)
-        {   
+        {
             _one_row($aAddressLine);
         }
     }
@@ -198,7 +197,7 @@
             _one_keyword_row($aRow['word_token'], $aRow['word_id']);
         }
     }
-    
+
     if (sizeof($aParentOfLines))
     {
         headline('Parent Of');
@@ -240,22 +239,21 @@
 
         $aNominatimMapInit = array(
           'tile_url' => $sTileURL,
-          'tile_attribution' => $sTileAttribution
+          'tile_attribution' => $sTileAttribution,
+          'lon' => $aPointDetails['lon'],
+          'lat' => $aPointDetails['lat'],
         );
         echo 'var nominatim_map_init = ' . json_encode($aNominatimMapInit, JSON_PRETTY_PRINT) . ';';
 
         $aPlace = array(
-                'asgeojson' => $aPointDetails['asgeojson'],
-                'lon' => $aPointDetails['lon'],
-                'lat' => $aPointDetails['lat'],
+          'asgeojson' => $aPointDetails['asgeojson'],
+          'lon' => $aPointDetails['lon'],
+          'lat' => $aPointDetails['lat'],
         );
-        echo 'var nominatim_result = ' . json_encode($aPlace, JSON_PRETTY_PRINT) . ';'; 
-
+        echo 'var nominatim_result = ' . json_encode($aPlace, JSON_PRETTY_PRINT) . ';';
 
     ?>
     </script>
-
-
 
     <?php include(CONST_BasePath.'/lib/template/includes/html-footer.php'); ?>
 </body>
